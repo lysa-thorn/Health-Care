@@ -40,13 +40,17 @@ class MaterialController extends Controller
      */
     public function store(Request $request)
     {
+        $message = "Material was not created";
         $material = new Material();
         $material->name = $request->name;
         $material->image = $request->image;
         $material->description = $request->description;
         $material->user_id = $request->user_id;
         $material->save();
-        return response()->json(['Massage' => "Material was created successfully."]);
+        if($material) {
+            $message = "Material was created successfully.";
+        }
+        return response()->json(['Massage' =>  $message]);
     }
 
     /**
@@ -80,13 +84,17 @@ class MaterialController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $message = "Material was not updated";
         $material = Material::find($id);
         $material->name = $request->name;
         $material->image = $request->image;
         $material->description = $request->description;
         $material->user_id = $request->user_id;
         $material->save();
-        return response()->json($material);
+        if ($material) {
+            $message = "Material was updated successfully.";
+        }
+        return response()->json(['Massage' =>  $message]);
     }
 
     /**
@@ -97,15 +105,15 @@ class MaterialController extends Controller
      */
     public function destroy($id)
     {
-        $message = '';
+        $message = "";
         $material = Material::find($id);
-        $material->delete();
-        if ($material) {
-            $message = "Material was not deleted.";
+        if(!$material) {
+            $message = "Not found material.";
         } else {
+            $material->delete();
             $message = "Material was deleted successfully.";
         }
         
-        return response()->json($message);
+        return response()->json(['message' => $message]);
     }
 }
