@@ -15,6 +15,37 @@ class AuthController extends Controller
         $this->middleware('auth:api', ['except' => ['login', 'register']]);
     }
 
+    public function updateProfile($id,Request $request)
+    {
+
+        $validator = Validator::make($request->all(), [
+            'fullname' => 'required|string',
+            'role' => 'required|string',
+            'phone' => 'required|string',
+            'password' => 'required|string|min:4',
+        ]);
+
+        if($validator->fails()) {
+            return response()->json($validator->errors(), 400);
+        }
+
+        $image = base64_encode(file_get_contents($request->file('image')));
+
+        $user = User::find($id)->update([
+                'phone' => $request->phone,
+                'image' => $image,
+                'fullname' => $request->fullname,
+                'password' => Hash::make($request->password),
+                'role' => $request->role
+        ]);
+
+        return response()->json([
+            'message' => 'User successfully update',
+            'user' => $user
+        ], 201);
+    }
+
+
     public function register(Request $request)
     {
         $validator = Validator::make($request->all(), [
