@@ -5,6 +5,7 @@ use App\Http\Controllers\MaterialController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CommentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,5 +31,5 @@ Route::controller(AuthController::class)->group(function () {
     Route::post('refresh', 'refresh');
 });
 Route::apiResource('materials', MaterialController::class);
-Route::apiResource('comments', AppointementController::class);
+Route::apiResource('comments', CommentController::class);
  
