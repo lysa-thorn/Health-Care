@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\MaterialResource;
 use App\Models\Material;
 use Illuminate\Http\Request;
 
@@ -16,10 +17,11 @@ class MaterialController extends Controller
     {
         $message = "Not found material";
         $materials = Material::all();
+        $materialResource = MaterialResource::collection($materials);
         if (!$materials) {
             return $message;
         }
-        return response()->json(['materials' => $materials]);
+        return response()->json(['materials' => $materialResource]);
     }
 
     /**
@@ -60,9 +62,11 @@ class MaterialController extends Controller
      * @param  \App\Models\Material  $material
      * @return \Illuminate\Http\Response
      */
-    public function show(Material $material)
+    public function show($id)
     {
-        //
+        $material = Material::find($id);
+        $material->user;
+        return response()->json(['materail' => $material]);
     }
 
     /**
