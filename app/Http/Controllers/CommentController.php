@@ -42,7 +42,16 @@ class CommentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $message = "Comment was not created";
+        $comment = new Comment();
+        $comment->comment = $request->comment;
+        $comment->user_id = $request->user_id;
+        $comment->material_id = $request->material_id;
+        $comment->save();
+        if($comment) {
+            $message = "Comment was created successfully.";
+        }
+        return response()->json(['Massage' =>  $message]);
     }
 
     /**
@@ -74,9 +83,18 @@ class CommentController extends Controller
      * @param  \App\Models\Comment  $comment
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Comment $comment)
+    public function update(Request $request, $id)
     {
-        //
+        $message = "Comment was not updated";
+        $comment = Comment::find($id);
+        $comment->comment = $request->comment;
+        $comment->user_id = $request->user_id;
+        $comment->material_id = $request->material_id;
+        $comment->save();
+        if($comment) {
+            $message = "Comment was updated successfully.";
+        }
+        return response()->json(['Massage' =>  $message]);
     }
 
     /**
@@ -85,8 +103,18 @@ class CommentController extends Controller
      * @param  \App\Models\Comment  $comment
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Comment $comment)
+    public function destroy($id)
     {
-        //
+        $message = "";
+        $comment = Comment::find($id);
+        if(!$comment) {
+            $message = "Not found comment.";
+        } else {
+            $comment->delete();
+            $message = "Comment was deleted successfully.";
+        }
+        
+        return response()->json(['message' => $message]);
+        
     }
 }
