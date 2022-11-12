@@ -92,8 +92,7 @@ class MaterialController extends Controller
         $message = "Material was not updated";
         $material = Material::find($id);
         $material->name = $request->name;
-        $image = base64_encode(file_get_contents($request->file('image')));
-        $material->image = $image;
+        $material->image = $request->image;
         $material->description = $request->description;
         $material->user_id = $request->user_id;
         $material->save();
