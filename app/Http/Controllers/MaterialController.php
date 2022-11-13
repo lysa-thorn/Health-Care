@@ -66,6 +66,7 @@ class MaterialController extends Controller
     {
         $material = Material::find($id);
         $material->user;
+        $material->comments;
         return response()->json(['materail' => $material]);
     }
 
