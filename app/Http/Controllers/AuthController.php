@@ -52,7 +52,6 @@ class AuthController extends Controller
             'phone' => 'required|string',
             'password' => 'required|string|min:4',
             'fullname' => 'required|string',
-            'role' => 'required|string',
         ]);
 
         if($validator->fails()) {
@@ -63,7 +62,6 @@ class AuthController extends Controller
                 'phone' => $request->phone,
                 'fullname' => $request->fullname,
                 'password' => Hash::make($request->password),
-                'role' => $request->role
         ]);
 
         return response()->json([
@@ -81,7 +79,7 @@ class AuthController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'phone' => 'required|string',
-            'password' => 'required|string|min:4',
+            'password' => 'required|string|min:5',
         ]);
 
         if ($validator->fails()) {
@@ -92,7 +90,13 @@ class AuthController extends Controller
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 
-        return $this->respondWithToken($token);
+        return response()->json([
+            'message' => 'User Logged In Successfully!',
+            'phone' => $request->phone,
+            'password' =>
+                $request->password,
+            'access_token' => $token
+        ], 201);
     }
 
     public function username()
