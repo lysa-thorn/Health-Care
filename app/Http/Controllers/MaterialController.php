@@ -45,8 +45,12 @@ class MaterialController extends Controller
         $message = "Material was not created";
         $material = new Material();
         $material->name = $request->name;
-        $image = base64_encode(file_get_contents($request->file('image')));
-        $material->image = $image;
+        if ($image = $request->file('image')) {
+            $destinationPath = 'image/';
+            $profileImage = date('YmdHis') . "." . $image->getClientOriginalExtension();
+            $image->move($destinationPath, $profileImage);
+            $material->image = $profileImage;
+        }
         $material->description = $request->description;
         $material->user_id = $request->user_id;
         $material->save();
@@ -92,8 +96,12 @@ class MaterialController extends Controller
         $message = "Material was not updated";
         $material = Material::find($id);
         $material->name = $request->name;
-        $image = base64_encode(file_get_contents($request->file('image')));
-        $material->image = $image;
+        if ($image = $request->file('image')) {
+            $destinationPath = 'image/';
+            $profileImage = date('YmdHis') . "." . $image->getClientOriginalExtension();
+            $image->move($destinationPath, $profileImage);
+            $material->image = $profileImage;
+        }
         $material->description = $request->description;
         $material->user_id = $request->user_id;
         $material->save();

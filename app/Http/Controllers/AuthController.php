@@ -19,8 +19,6 @@ class AuthController extends Controller
     {
 
         $validator = Validator::make($request->all(), [
-            'fullname' => 'required|string',
-            'role' => 'required|string',
             'phone' => 'required|string',
             'password' => 'required|string|min:4',
         ]);
@@ -29,15 +27,17 @@ class AuthController extends Controller
             return response()->json($validator->errors(), 400);
         }
 
-        $image = base64_encode(file_get_contents($request->file('image')));
+        $user = User::find($id);
 
-        $user = User::find($id)->update([
-                'phone' => $request->phone,
-                'image' => $image,
-                'fullname' => $request->fullname,
-                'password' => Hash::make($request->password),
-                'role' => $request->role
-        ]);
+        if ($image = $request->file('image')) {
+            $destinationPath = 'image/';
+            $profileImage = date('YmdHis') . "." . $image->getClientOriginalExtension();
+            $image->move($destinationPath, $profileImage);
+            $user->image = $profileImage;
+        }
+        $user->phone = $request->phone;
+        $user->fullname = $request->fullname;
+        $user->password = Hash::make($request->password);
 
         return response()->json([
             'message' => 'User successfully update',
@@ -51,8 +51,6 @@ class AuthController extends Controller
         $validator = Validator::make($request->all(), [
             'phone' => 'required|string',
             'password' => 'required|string|min:4',
-            'fullname' => 'required|string',
-            'role' => 'required|string',
         ]);
 
         if($validator->fails()) {
@@ -63,7 +61,6 @@ class AuthController extends Controller
                 'phone' => $request->phone,
                 'fullname' => $request->fullname,
                 'password' => Hash::make($request->password),
-                'role' => $request->role
         ]);
 
         return response()->json([
