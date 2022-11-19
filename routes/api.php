@@ -31,6 +31,7 @@ Route::controller(AuthController::class)->group(function () {
     Route::post('refresh', 'refresh');
 });
 Route::post('update-material/{id}', [MaterialController::class, 'updateMaterial']);
+Route::post('update-comment/{id}', [CommentController::class, 'updateComment']);
 Route::apiResource('materials', MaterialController::class);
 Route::apiResource('comments', CommentController::class);
  
