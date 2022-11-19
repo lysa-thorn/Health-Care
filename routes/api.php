@@ -30,6 +30,7 @@ Route::controller(AuthController::class)->group(function () {
     Route::post('logout', 'logout');
     Route::post('refresh', 'refresh');
 });
+Route::post('update-material/{id}', [MaterialController::class, 'updateMaterial']);
 Route::apiResource('materials', MaterialController::class);
 Route::apiResource('comments', CommentController::class);
  

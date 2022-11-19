@@ -28,13 +28,7 @@ class AuthController extends Controller
         }
 
         $user = User::find($id);
-
-        if ($image = $request->file('image')) {
-            $destinationPath = 'image/';
-            $profileImage = date('YmdHis') . "." . $image->getClientOriginalExtension();
-            $image->move($destinationPath, $profileImage);
-            $user->image = $profileImage;
-        }
+        $user->image = "data:image/png;base64,".base64_encode(file_get_contents($request->file('image')));
         $user->phone = $request->phone;
         $user->fullname = $request->fullname;
         $user->password = Hash::make($request->password);

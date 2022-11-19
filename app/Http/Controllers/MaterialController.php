@@ -45,12 +45,7 @@ class MaterialController extends Controller
         $message = "Material was not created";
         $material = new Material();
         $material->name = $request->name;
-        if ($image = $request->file('image')) {
-            $destinationPath = 'image/';
-            $profileImage = date('YmdHis') . "." . $image->getClientOriginalExtension();
-            $image->move($destinationPath, $profileImage);
-            $material->image = $profileImage;
-        }
+        $material->image = "data:image/png;base64,".base64_encode(file_get_contents($request->file('image')));
         $material->description = $request->description;
         $material->user_id = $request->user_id;
         $material->save();
@@ -92,25 +87,38 @@ class MaterialController extends Controller
      * @param  \App\Models\Material  $material
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
-    {
+
+    public function updateMaterial(Request $request,$id){
         $message = "Material was not updated";
         $material = Material::find($id);
         $material->name = $request->name;
-        if ($image = $request->file('image')) {
-            $destinationPath = 'image/';
-            $profileImage = date('YmdHis') . "." . $image->getClientOriginalExtension();
-            $image->move($destinationPath, $profileImage);
-            $material->image = $profileImage;
-        }
+        $material->image = "data:image/png;base64,".base64_encode(file_get_contents($request->file('image')));
         $material->description = $request->description;
         $material->user_id = $request->user_id;
         $material->save();
+
         if ($material) {
             $message = "Material was updated successfully.";
         }
         return response()->json(['Massage' =>  $message]);
     }
+
+    // public function update(Request $request,$id)
+    // {
+    //     $message = "Material was not updated";
+    //     $material = Material::find($id);
+    //     $material->name = $request->name;
+    //     $image = "data:image/png;base64,".base64_encode(file_get_contents($request->file('image')));
+    //     $material->image = $image;
+    //     $material->description = $request->description;
+    //     $material->user_id = 1;
+    //     $material->save();
+
+    //     if ($material) {
+    //         $message = "Material was updated successfully.";
+    //     }
+    //     return response()->json(['Massage' =>  $message]);
+    // }
 
     /**
      * Remove the specified resource from storage.
