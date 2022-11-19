@@ -83,7 +83,20 @@ class CommentController extends Controller
      * @param  \App\Models\Comment  $comment
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    // public function update(Request $request, $id)
+    // {
+    //     $message = "Comment was not updated";
+    //     $comment = Comment::find($id);
+    //     $comment->comment = $request->comment;
+    //     $comment->user_id = $request->user_id;
+    //     $comment->material_id = $request->material_id;
+    //     $comment->save();
+    //     if($comment) {
+    //         $message = "Comment was updated successfully.";
+    //     }
+    //     return response()->json(['Massage' =>  $message]);
+    // }
+    public function updateComment(Request $request, $id)
     {
         $message = "Comment was not updated";
         $comment = Comment::find($id);
