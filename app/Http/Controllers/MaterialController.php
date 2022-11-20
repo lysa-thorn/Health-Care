@@ -45,7 +45,8 @@ class MaterialController extends Controller
         $message = "Material was not created";
         $material = new Material();
         $material->name = $request->name;
-        $material->image = "data:image/png;base64,".base64_encode(file_get_contents($request->file('image')));
+        $material->image = $request->image;
+        // $material->image = "data:image/png;base64,".base64_encode(file_get_contents($request->file('image')));
         $material->description = $request->description;
         $material->user_id = $request->user_id;
         $material->save();
