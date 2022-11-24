@@ -62,3 +62,17 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+## First clonse from git
+composer update
+
+## Generate key laravel
+php artisan key:generate
+
+## Generate secret key jwt
+php artisan jwt:secret
+
+## run port 3000 to connect local android
+php artisan serve --port=3000 
+
+## For DB and Pont in folder db

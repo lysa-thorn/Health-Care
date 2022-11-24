@@ -8,6 +8,11 @@ use Illuminate\Http\Request;
 
 class MaterialController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth:api');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -46,7 +51,6 @@ class MaterialController extends Controller
         $material = new Material();
         $material->name = $request->name;
         $material->image = $request->image;
-        // $material->image = "data:image/png;base64,".base64_encode(file_get_contents($request->file('image')));
         $material->description = $request->description;
         $material->user_id = $request->user_id;
         $material->save();
@@ -93,7 +97,12 @@ class MaterialController extends Controller
         $message = "Material was not updated";
         $material = Material::find($id);
         $material->name = $request->name;
-        $material->image = "data:image/png;base64,".base64_encode(file_get_contents($request->file('image')));
+        if($request->file('image')){
+            $material->image = "data:image/png;base64,".base64_encode(file_get_contents($request->file('image')));
+        }else{
+            $material->image = $material->image;
+        }
+        
         $material->description = $request->description;
         $material->user_id = $request->user_id;
         $material->save();
@@ -103,23 +112,6 @@ class MaterialController extends Controller
         }
         return response()->json(['Massage' =>  $message]);
     }
-
-    // public function update(Request $request,$id)
-    // {
-    //     $message = "Material was not updated";
-    //     $material = Material::find($id);
-    //     $material->name = $request->name;
-    //     $image = "data:image/png;base64,".base64_encode(file_get_contents($request->file('image')));
-    //     $material->image = $image;
-    //     $material->description = $request->description;
-    //     $material->user_id = 1;
-    //     $material->save();
-
-    //     if ($material) {
-    //         $message = "Material was updated successfully.";
-    //     }
-    //     return response()->json(['Massage' =>  $message]);
-    // }
 
     /**
      * Remove the specified resource from storage.
