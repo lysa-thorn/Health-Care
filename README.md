@@ -72,6 +72,9 @@ php artisan key:generate
 ## Generate secret key jwt
 php artisan jwt:secret
 
+## migrate table
+php artisan migrate
+
 ## run port 3000 to connect local android
 php artisan serve --port=3000 
 
